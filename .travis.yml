@@ -1,0 +1,37 @@
+language: node_js
+cache:
+  directories:
+    - ~/.npm
+notifications:
+  email: true
+node_js:
+  - 12
+  - 10
+  - 8.16
+before_install:
+# package-lock.json was introduced in npm@5
+- '[[ $(node -v) =~ ^v9.*$ ]] || npm install -g npm@latest' # skipped when using node 9
+- npm install -g greenkeeper-lockfile
+install: npm install
+after_success:
+  - npm run codecov
+jobs:
+  include:
+    - stage: test
+      script:
+        - npm run lint:fix
+        - npm run build
+        - npm run build:prod
+        - npm run test
+      before_script: greenkeeper-lockfile-update
+      after_script:
+        - greenkeeper-lockfile-upload
+    # Define the release stage that runs semantic-release
+    - stage: release
+      node_js: lts/*
+      # Advanced: optionally overwrite your default `script` step to skip the tests
+      # script: skip
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: npm run semantic-release
