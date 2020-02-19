@@ -46,7 +46,7 @@
     "@commitlint/prompt": "^8.2.0",
     "@commitlint/prompt-cli": "^8.2.0",
     "babel-jest": "^24.9.0",
-    "codecov": "^3.6.1",
+    "codecov": "^3.6.5",
     "core-js": "^3.4.1",
     "cross-env": "^6.0.3",
     "eslint": "^6.6.0",
